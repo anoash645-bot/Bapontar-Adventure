@@ -1,0 +1,14 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+html{scroll-behavior:smooth} body{@apply bg-white text-ink font-sans antialiased overflow-x-hidden}
+h1,h2,h3{@apply font-display tracking-tight}
+:focus-visible{outline:3px solid #2CC7C0;outline-offset:2px}
+.btn{@apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors min-h-[44px]}
+.btn-primary{@apply bg-aqua-400 text-ocean-950 hover:bg-white}
+.btn-dark{@apply bg-ocean-900 text-white hover:bg-ocean-700}
+.btn-ghost{@apply border border-white/50 text-white hover:bg-white/10}
+.wrap{@apply mx-auto w-full max-w-6xl px-5}
+.sec{@apply py-16 md:py-24}
+.input{@apply w-full rounded-xl border border-ocean-900/20 px-4 py-3 min-h-[44px] bg-white}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero-in{animation:rise .8s ease both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
