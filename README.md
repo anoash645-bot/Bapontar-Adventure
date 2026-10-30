@@ -11,3 +11,5 @@
 Push ke GitHub → import di Vercel (atau `npm run build && npm start`). Isi `SITE.url` setelah domain resmi ada.
 ## Catatan
 Tanpa backend: formulir & pemesanan hanya membuka WhatsApp. Tidak ada login admin, pembayaran, atau penyimpanan data. Siapkan CMS (Sanity/Strapi) kelak dengan menukar isi /data.
+## Ulasan Google otomatis
+Place ID ada di `data/site-config.ts`. Buat API key Places API (New) di Google Cloud, batasi hanya untuk Places API, lalu isi env `GOOGLE_PLACES_API_KEY` di Vercel (Settings → Environment Variables). Tanpa key, halaman memakai `data/testimonials.ts`. Google hanya memberi maksimal 5 ulasan; atribusi (nama, foto, tautan, "Google Maps") ditampilkan sesuai ketentuan. Jangan simpan isi ulasan permanen di repo.
