@@ -8,6 +8,7 @@ export const SITE = {
   phoneDisplay: "0852-5656-5665",
   email: "bapontaradv@gmail.com",
   instagram: "https://www.instagram.com/bapontaradventure/", instagramHandle: "@bapontaradventure",
+  googlePlaceId: "ChIJa_uV0R91hzIRchTeou1-l3I", // Place ID Google Maps (publik). Ulasan memerlukan env GOOGLE_PLACES_API_KEY di server.
   facebook: "", // belum ada URL pasti (nama halaman: Bapontar Adventure)
   tiktok: "",
   address: "Jl. Sam Ratulangi No. 61, Tanjung Batu, Kec. Wanea, Kota Manado, Sulawesi Utara",
