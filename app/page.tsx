@@ -7,9 +7,14 @@ import { Photo } from "@/components/Ph";
 import { Gallery } from "@/components/Gallery";
 import { packages } from "@/data/packages";
 import { destinations } from "@/data/destinations";
+import { getGoogleReviews, writeReviewUrl } from "@/lib/google-reviews";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { SITE } from "@/data/site-config";
 import { testimonials } from "@/data/testimonials";
-export default function Home() {
+export const revalidate = 3600;
+export default async function Home() {
+  const g = await getGoogleReviews();
+  const rating = g?.rating ? { score: g.rating.toFixed(1).replace(".", ","), count: g.count ?? 0 } : SITE.googleRating;
   return (
     <main>
       <section className="relative bg-ocean-950 text-white">
@@ -22,7 +27,7 @@ export default function Home() {
             <Link href="/packages" className="btn btn-primary">Jelajahi Paket Wisata</Link>
             <WaButton label={{ id: "Konsultasi via WhatsApp", en: "Consult via WhatsApp" }} cls="btn btn-ghost" />
           </div>
-          <p className="mt-8 text-sm text-white/70">{destinations.slice(0, 3).map(d => d.name).join("  ·  ")}</p>{SITE.googleRating && <p className="mt-2 text-sm text-white/80">★ {SITE.googleRating.score} Google · {SITE.googleRating.count} <T v={{ id: "ulasan", en: "reviews" }} /></p>}
+          <p className="mt-8 text-sm text-white/70">{destinations.slice(0, 3).map(d => d.name).join("  ·  ")}</p>{rating && <p className="mt-2 text-sm text-white/80">★ {rating.score} Google · {rating.count} <T v={{ id: "ulasan", en: "reviews" }} /></p>}
         </div>
       </section>
 
@@ -55,8 +60,10 @@ export default function Home() {
         <div className="mt-8 grid gap-4 md:grid-cols-2">{[["turtle","Penyu di perairan biru"],["reef","Terumbu karang dan ikan"]].map(([n,a]) => <video key={n} controls preload="none" playsInline poster={`/images/${n}-poster.jpg`} aria-label={a} className="aspect-video w-full rounded-2xl bg-black"><source src={`/videos/${n}.mp4`} type="video/mp4" /></video>)}</div></div></section>
       <section className="sec"><div className="wrap">
         <h2 className="text-3xl md:text-4xl"><T v={{ id: "Ulasan pelanggan", en: "Customer reviews" }} /></h2>
-        {testimonials.length === 0 ? <p className="mt-6 rounded-xl bg-sand-100 p-6"><T v={{ id: "Ulasan asli pelanggan akan ditampilkan di sini.", en: "Verified customer reviews will appear here." }} /></p>
+        {g && g.reviews.length > 0 ? <GoogleReviews data={g} />
+          : testimonials.length === 0 ? <p className="mt-6 rounded-xl bg-sand-100 p-6"><T v={{ id: "Ulasan asli pelanggan akan ditampilkan di sini.", en: "Verified customer reviews will appear here." }} /></p>
           : <div className="mt-8 grid gap-6 md:grid-cols-3">{testimonials.map((t, i) => <blockquote key={i} className="rounded-2xl border p-6"><p>{t.text}</p><footer className="mt-3 text-sm font-semibold">{t.name}{t.origin && `, ${t.origin}`}</footer></blockquote>)}</div>}
+        {SITE.googlePlaceId && <div className="mt-8"><a href={writeReviewUrl()} target="_blank" rel="noopener noreferrer" className="btn btn-dark"><T v={{ id: "Tulis ulasan di Google", en: "Write a Google review" }} /></a></div>}
       </div></section>
 
       <section className="bg-ocean-900 py-20 text-center text-white"><div className="wrap">
